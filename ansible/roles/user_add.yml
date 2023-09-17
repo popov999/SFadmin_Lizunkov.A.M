@@ -14,7 +14,7 @@
     user: name={{user_name}} shell=/bin/bash
 
   - name: Add SSH keys to remote hosts
-    authorized_key: user={{username}} key="{{ lookup('file', "{{key_path}}/id_rsa.pub") }}"
+    authorized_key: user={{user_name}} key="{{ lookup('file', "{{key_path}}/id_rsa.pub") }}"
 
   - name: Add user to sudo
     template:
