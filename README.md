@@ -1,4 +1,4 @@
 # SFadmin_Lizunkov.A.M
 ### Branch develop
-### Add nginx config
-### Nginx user ubuntu
+### Merge task-1 to task-2
+### Fix conflict. Nginx user ubuntu
