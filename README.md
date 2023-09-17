@@ -1,4 +1,3 @@
 # SFadmin_Lizunkov.A.M
-# Branch develop
-# Add nginx config
-# Nginx user centos
+### Branch task-2 from nginx
+### Nginx user centos
