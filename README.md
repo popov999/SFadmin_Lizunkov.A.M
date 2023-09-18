@@ -2,4 +2,4 @@
 
 ### Branch: Ansible-all. Roles: all
 
-:point_up: Сюда я просто скопировал папку `ansible` из `/etc`.
+:point_up: Сюда я просто скопировал папку `ansible` из `/etc`. Содержимое файлов немного причесал. :)
