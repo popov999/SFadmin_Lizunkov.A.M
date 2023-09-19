@@ -1,0 +1,26 @@
+  ##### Ubuntu #####
+  - name: Open port 10050 for Ubuntu
+    iptables:
+      action: insert
+      chain: INPUT
+      protocol: tcp
+      destination_port: 10050
+      jump: ACCEPT
+    when: ansible_distribution == "Ubuntu"
+
+  - name: Iptables save rules
+    shell: netfilter-persistent save
+    when: ansible_distribution == "Ubuntu"
+
+  ##### CentOS #####
+  - name: Open port 10050 for CentOS
+    firewalld:
+      port: 10050/tcp
+      permanent: true
+      state: enabled
+    when: ansible_distribution == "CentOS"
+
+  - name: Firewalld reload
+    shell: firewall-cmd --reload
+    when: ansible_distribution == "CentOS"
+

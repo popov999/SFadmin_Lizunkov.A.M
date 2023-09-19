@@ -1,0 +1,19 @@
+##### Attention!!! ##### ##### Attention!!! #####  
+  ##### Ubuntu #####
+  - name: Close port 10050 iptables
+    shell: iptables -D INPUT 1
+    when: ansible_distribution == "Ubuntu"
+
+  - name: Iptables save rules
+    shell: netfilter-persistent save
+    when: ansible_distribution == "Ubuntu"
+
+  ##### CentOS #####
+  - name: Close port 10050 firewalld
+    shell: firewall-cmd --remove-port=10050/tcp --permanent
+    when: ansible_distribution == "CentOS"
+
+  - name: Firewalld reload
+    shell: firewall-cmd --reload
+    when: ansible_distribution == "CentOS"
+
