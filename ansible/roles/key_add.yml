@@ -1,0 +1,11 @@
+---
+
+- hosts: all
+  become: yes
+  vars:
+          key_path: ""
+
+  tasks:
+
+  - name: Add SSH keys to remote hosts
+    authorized_key: user="{{ansible_user}}" key="{{ lookup('file', "{{key_path}}/int_rsa.pub") }}"
