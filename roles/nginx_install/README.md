@@ -33,5 +33,5 @@ Including an example of how to use your role (for instance, with variables passe
       nginx_port: 8080
       nginx_server_name: "examle.com"
       nginx_state: "started"
-      nginx_enabled: "no"
+      nginx_enabled: "false"
 

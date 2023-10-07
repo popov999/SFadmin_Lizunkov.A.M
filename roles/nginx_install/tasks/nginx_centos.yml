@@ -15,7 +15,7 @@
     state: present
   when: result.stat.exists == false
 
-- name: Update all packages       
+- name: Update all packages. CentOS       
   yum:
     name: '*'
     state: latest

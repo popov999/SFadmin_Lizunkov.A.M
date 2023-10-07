@@ -4,4 +4,4 @@
 nginx_port: 80
 nginx_server_name: "_"
 nginx_state: "restarted"
-nginx_enabled: "yes"
+nginx_enabled: "true"
