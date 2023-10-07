@@ -1,0 +1,11 @@
+---
+
+- hosts:
+    - host2
+    - host3
+  become: yes
+
+  roles:
+    - role: openvpn_client
+      cert_path: "/home/user/easy-rsa/clients/"
+      server_ip: "84.1.1.1"

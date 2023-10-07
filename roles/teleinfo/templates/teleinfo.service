@@ -1,0 +1,11 @@
+[Unit]
+Description=Send to telegram
+After=network.target
+
+[Service]
+Type=oneshot
+User=root
+ExecStart=/home/{{ansible_user}}/script/teleinfo.sh
+
+[Install]
+WantedBy=multi-user.target

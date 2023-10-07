@@ -1,0 +1,92 @@
+---
+# tasks file for openvpn_client
+
+## software installation
+
+- name: For Ubuntu only
+  block:
+    - name: Update apt. Ubuntu
+      apt:
+        update_cache: yes
+
+    - name: install packages. Ubuntu
+      apt:
+        name: openvpn
+        state: present
+
+  when: ansible_distribution == "Ubuntu"
+
+## For Centos epel-repo must be install !!!
+- name: For CentOS only
+  block:
+    - name: Check epel.repo. CentOS
+      stat:
+        path: /etc/yum.repos.d/epel.repo
+      register: result
+
+    ## Instal epel repo
+    - name: add epel repo. CentOS
+      yum:
+        name: epel-release
+        state: present
+      when: result.stat.exists == false
+
+    - name: Update all packages       
+      yum:
+        name: '*'
+        state: latest
+      when: result.stat.exists == false
+
+    - name: install packages for CentOS
+      yum:
+        name: openvpn
+        state: present
+
+    - name: Create directories
+      file:
+        path: "/var/log/openvpn"
+        state: directory
+        owner: root
+        group: root
+        mode: 0744
+
+
+  when: ansible_distribution == "CentOS"
+
+## Get a short hostname      
+- name: Get a short hostname
+  set_fact:
+    vpn_client: "{{ inventory_hostname.split('.')[0] }}"
+
+
+## Copying key and certificate files to /etc/openvpn/client
+- name: Copy key and certificate
+  copy:
+    src: "{{cert_path}}{{ item }}"
+    dest: "/etc/openvpn/client/"
+  with_items:
+    - "{{vpn_client}}.crt"
+    - "{{vpn_client}}.key"
+    - ca.crt
+    - ta.key
+    
+## Copying the settings file to /etc/openvpn/client.conf
+- name: Create config file
+  template:
+    src: client.conf
+    dest: /etc/openvpn/client.conf
+    owner: root
+    group: root
+    mode: 0644
+
+## Remove files from server
+- name: Debug
+  debug:
+    msg: "Don't forget to delete the copied files on the server!!!"
+
+## Start openvpn
+- name: Start and enable service
+  systemd:
+    name: openvpn@client.service
+    state: started
+    enabled: yes

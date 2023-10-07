@@ -1,0 +1,14 @@
+---
+# tasks file for roles/open_port
+
+##### Ubuntu #####
+
+- import_tasks: iptables.yml
+  when: ansible_distribution == "Ubuntu"
+
+##### CentOS #####
+
+- import_tasks: firewalld.yml
+  when: ansible_distribution == "CentOS"
+
+

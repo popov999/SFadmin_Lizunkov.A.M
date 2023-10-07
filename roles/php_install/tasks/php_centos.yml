@@ -1,0 +1,84 @@
+---
+
+## Install Epel
+- name: Check epel.repo. CentOS
+  stat:
+    path: /etc/yum.repos.d/epel.repo
+  register: result_epel
+
+- name: add epel repo. CentOS
+  yum:
+    name: epel-release
+    state: present
+  when: result_epel.stat.exists == false
+
+## Install REMI
+
+- name: Check remi.repo. CentOS
+  stat:
+    path: /etc/yum.repos.d/remi.repo
+  register: result_remi
+    
+- name: Install REMI Release 7. CentOS
+  yum:
+    name: https://rpms.remirepo.net/enterprise/remi-release-7.rpm 
+    state: present
+  when: result_remi.stat.exists == false
+
+
+- name: Update all packages. CentOS
+  yum:
+    name: '*'
+    state: latest
+
+###### Install PHP #####
+#     remi,remi-php54
+#     remi,remi-php70
+#     remi,remi-php71
+#     remi,remi-php72
+#     remi,remi-php73
+#     remi,remi-php74 **
+#     remi,remi-php80
+#     remi,remi-php81
+#     remi,remi-php82
+
+- name: debug PHP version. CentOS
+  debug:
+    msg: "Now install php{{version}} version packages !!!"
+
+- name: debug PHP packages. CentOS
+  debug:
+    var: packages
+
+- name: Install PHP packages. CentOS
+  yum:
+    name: "{{item}}"
+    state: latest
+    enablerepo: "remi,remi-php{{version}}"
+  with_items: "{{packages}}"
+
+  ##### Apache #####
+
+- name: Apache configure. CentOS
+  block:
+
+    - name: Install mod_fcgid. CentOS
+      yum:
+        name: mod_fcgid
+        state: present
+
+    - name: Start and enable php-fpm. CentOS
+      systemd:
+        name: php-fpm
+        state: started
+        enabled: true 
+
+    - name: Restart Apache. CentOS
+      systemd:
+        name: httpd
+        state: restarted
+        enabled: true 
+
+# yum install scl-utils
+
+  when: apache == "yes"

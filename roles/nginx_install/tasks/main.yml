@@ -1,0 +1,47 @@
+---
+# tasks file for nginx_install
+
+##### CentOS #####
+
+- import_tasks: nginx_centos.yml
+  when: ansible_distribution == "CentOS"
+
+##### Ubuntu #####
+
+- import_tasks: nginx_ubuntu.yml
+  when: ansible_distribution == "Ubuntu"
+
+##### For All OS #####
+
+- name: Create directory /var/www/html
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: 0744
+  loop:
+      - '/var/www/html'
+
+## Site configuration
+
+- name: Copy files to /var/www/html
+  copy:
+    src: html
+    dest: /var/www
+    owner: www-data
+    group: www-data
+    mode: 0744
+
+- name: Copy the site configuration file
+  template:
+    src: test.conf
+    dest: /etc/nginx/sites-available/test.conf
+
+- name: Create link to test.conf in /etc/nginx/sites-enabled
+  file:
+    src: /etc/nginx/sites-available/test.conf
+    dest: /etc/nginx/sites-enabled/test.conf
+    state: link
+
+

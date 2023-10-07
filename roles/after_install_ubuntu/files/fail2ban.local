@@ -1,0 +1,10 @@
+[DEFAULT]
+## ignoreip = 187.77.77.77
+
+[sshd]
+## if within 1 hour
+findtime    = 3600
+## 6 failed login attempts
+maxretry    = 6
+## ban IP for 24 hours
+bantime     = 86400

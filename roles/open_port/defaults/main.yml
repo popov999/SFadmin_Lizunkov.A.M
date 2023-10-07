@@ -1,0 +1,7 @@
+---
+# defaults file for roles/open_port
+
+save_rules: "true"
+proto_port: "tcp"
+open_port:
+  - "22"

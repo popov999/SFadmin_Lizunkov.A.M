@@ -1,0 +1,15 @@
+---
+# tasks file for roles/php_install
+
+##### CentOS #####
+
+- import_tasks: php_centos.yml
+  when: ansible_distribution == "CentOS"
+
+##### Ubuntu #####
+
+    #- import_tasks: php_ubuntu.yml
+    #when: ansible_distribution == "Ubuntu"
+
+##### For All OS #####
+

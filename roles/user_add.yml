@@ -1,0 +1,19 @@
+---
+
+- hosts: all
+  become: yes
+
+  tasks:
+
+  - name: Add user to remote hosts
+    user: name=ansible-virtual6432 shell=/bin/bash
+
+  - name: Add SSH keys to remote hosts
+    authorized_key: user=ansible-virtual6432 key="{{ lookup('file', "/home/virtual/.ssh/id_rsa.pub") }}"
+
+  - name: Add user to sudo
+    template:
+      src: /etc/ansible/common/files/sudoers
+      dest: /etc/sudoers.d/01-ansible
+      mode: 0444
+

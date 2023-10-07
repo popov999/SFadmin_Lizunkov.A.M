@@ -1,0 +1,46 @@
+---
+# tasks file for after_install_centos
+
+## Create directories downloads, script
+- name: Create directories downloads, script
+  file:
+    path: "/home/{{ansible_user}}/{{item}}"
+    state: directory
+    owner: "{{ansible_user}}"
+    group: "{{ansible_user}}"
+    mode: 0744
+  loop:
+    - downloads
+    - script
+
+## minimal software installation
+
+- name: Update apt
+  apt:
+    update_cache: yes
+
+
+- name: Upgrade packages
+  apt:
+    upgrade: full
+
+- name: install packages
+  apt:
+    name:
+      - mc
+      - net-tools
+      - git
+      - nmap
+      - fail2ban
+      - curl
+      - iptables-persistent
+    state: present
+
+##### Protect #####
+
+## Fail2ban settings
+- import_tasks: fail2ban_set.yml
+
+## iptables settings
+- import_tasks: iptables_set.yml
+

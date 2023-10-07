@@ -1,0 +1,12 @@
+##### CentOS #####
+- name: Open ports for CentOS
+  firewalld:
+    port: "{{item}}/{{proto_port}}"
+    permanent: "{{save_rules}}"
+    state: enabled
+    immediate: true
+  with_items: "{{open_port}}"
+
+    #- name: Firewalld reload
+    # shell: firewall-cmd --reload
+

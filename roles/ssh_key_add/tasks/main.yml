@@ -1,0 +1,42 @@
+---
+# tasks file for ssh_key_add
+
+# default main_server=example.com
+# default key_name="int_rsa"
+
+# Check the existence of files <key_name>, <key_name>.pub
+
+# Key generation
+- name: Key generation on the main server
+  community.crypto.openssh_keypair:
+    path: "/home/{{ansible_user}}/.ssh/{{key_name}}"
+    owner: "{{ansible_user}}"
+    group: "{{ansible_user}}"
+    mode: 0600
+  register: result
+  when: inventory_hostname == main_server
+
+# Add pub_key to hosts
+- name: Add pub_key to hosts
+  lineinfile:
+    path: "/home/{{ansible_user}}/.ssh/authorized_keys"
+    line: "{{ hostvars[main_server]['result']['public_key'] }}"
+    state: present
+    backup: true
+    owner: "{{ansible_user}}"
+    group: "{{ansible_user}}"
+    mode: 0600
+
+- name: Debug result
+  debug:
+    msg: "The key is generated and added to the server."
+
+# Configuring the SSH Client on main_server
+- name: Configuring the SSH Client
+  template:
+    src: ssh.conf
+    dest: /etc/ssh/ssh_config.d/ansible.conf
+    owner: root
+    group: root
+    mode: 0644
+  when: inventory_hostname == main_server

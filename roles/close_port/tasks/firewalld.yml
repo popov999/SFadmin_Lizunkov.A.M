@@ -1,0 +1,13 @@
+##### Attention!!! ##### ##### Attention!!! #####  
+
+##### CentOS #####
+- name: Close ports for CentOS
+  firewalld:
+    port: "{{item}}/{{proto_port}}"
+    permanent: "{{save_rules}}"
+    state: disabled
+    immediate: true
+  with_items: "{{close_port}}"
+
+    #- name: Firewalld reload
+    #shell: firewall-cmd --reload

@@ -1,0 +1,14 @@
+  ##### Ubuntu #####
+  - name: Open ports. Ubuntu
+    iptables:
+      action: insert
+      chain: INPUT
+      protocol: "{{proto_port}}"
+      destination_port: "{{item}}"
+      jump: ACCEPT
+    with_items: "{{open_port}}"
+
+  - name: Iptables save rules
+    shell: netfilter-persistent save
+    when: save_rules == "yes"
+

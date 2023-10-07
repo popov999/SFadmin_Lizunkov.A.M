@@ -1,0 +1,4 @@
+---
+# vars file for roles/apache
+
+apache: "{{ 'httpd' if ansible_distribution == 'CentOS' else 'apache2' }}"

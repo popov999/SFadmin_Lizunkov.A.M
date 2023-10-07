@@ -1,0 +1,12 @@
+---
+
+ - hosts: all
+   become: no
+
+   tasks:
+
+    - name: Install script
+      template:
+        src: /etc/ansible/common/files/testweb.sh
+        dest: /home/virtual/testweb.sh
+        mode: 0644

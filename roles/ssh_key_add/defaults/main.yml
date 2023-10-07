@@ -1,0 +1,4 @@
+---
+# defaults file for ssh_key_add
+main_server: example.com
+key_name: "int_rsa"

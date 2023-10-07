@@ -1,0 +1,7 @@
+---
+# defaults file for apache_install
+
+apache_port: 80
+apache_server_name: "_"
+apache_state: "restarted"
+apache_enabled: "true"

@@ -1,0 +1,12 @@
+---
+
+- hosts: host
+  become: yes
+
+  roles:
+    - role: php_install
+      version: "82"
+      packages:
+        - php
+        - php-fpm
+      apache: "yes"

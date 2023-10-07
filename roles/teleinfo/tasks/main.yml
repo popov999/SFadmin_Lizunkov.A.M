@@ -1,0 +1,37 @@
+---
+# tasks file for teleinfo role
+
+- name: Create Directories
+  file:
+    path: /home/{{ansible_user}}/script
+    state: directory
+    owner: "{{ansible_user}}"
+    group: "{{ansible_user}}"
+    mode: 0755
+
+- name: Install script
+  template:
+    src: "{{ip_type}}.sh"
+    dest: "/home/{{ansible_user}}/script/teleinfo.sh"
+    owner: "{{ansible_user}}"
+    group: "{{ansible_user}}"
+    mode: 0744
+
+- name: Install service
+  template:
+    src: teleinfo.service
+    dest: /etc/systemd/system/teleinfo.service
+    owner: root
+    group: root
+    mode: 0644
+
+- name: systemd reload
+  systemd:
+    daemon_reload: yes
+
+- name: Start/Test service
+  systemd:
+    name: teleinfo.service
+    enabled: yes
+    state: started
+

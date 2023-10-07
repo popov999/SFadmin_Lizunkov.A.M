@@ -1,0 +1,25 @@
+## Configure iptables
+
+# Copy rules
+- name: Copy rules in /etc/iptables/rules.v4
+  copy:
+    src: rules.v4
+    dest: /etc/iptables/rules.v4
+    remote_src: no
+    owner: root
+    group: root
+    mode: 0644
+
+# Аpply rules
+- name: Apply rules
+  shell: netfilter-persistent start
+
+# Read INPUT rules
+- name: Read INPUT rules
+  shell: iptables -L INPUT --line-numbers
+  register: result_rules
+
+# View result
+- name: View rules
+  debug:
+    var: result_rules.stdout_lines

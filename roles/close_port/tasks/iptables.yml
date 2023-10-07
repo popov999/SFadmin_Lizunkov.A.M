@@ -1,0 +1,8 @@
+##### Attention!!! ##### ##### Attention!!! #####  
+##### Ubuntu #####
+- name: Close port 10050 iptables
+  shell: iptables -D INPUT 1
+
+- name: Iptables save rules
+  shell: netfilter-persistent save
+  when: save_rules == "true"

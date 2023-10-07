@@ -1,0 +1,51 @@
+---
+# tasks file for httpd_install
+
+##### CentOS #####
+
+- name: Check epel.repo. CentOS
+  stat:
+    path: /etc/yum.repos.d/epel.repo
+  register: result
+
+## Instal epel repo
+- name: add epel repo. CentOS
+  yum:
+    name: epel-release
+    state: present
+  when: result.stat.exists == false
+
+- name: Update all packages
+  yum:
+    name: '*'
+    state: latest    
+  when: result.stat.exists == false
+
+- name: install httpd. CentOS
+  yum:
+    name: httpd
+    state: latest
+  notify: start apache
+
+- name: Add system user www-data. CentOS
+  user:
+    name: www-data
+    shell: /sbin/nologin
+    create_home: false
+    home: /var/www
+    system: true
+
+##### httpd Settings #####
+- name: Create directories for site configuration files. CentOS
+  file:
+    path: "/etc/httpd/{{ item }}"
+    state: directory
+  loop:
+      - 'sites-enabled'
+      - 'sites-available'
+
+- name: Copy the httpd.conf configuration file. CentOS
+  template:
+    src: httpd.conf
+    dest: /etc/httpd/conf/httpd.conf
+    backup: yes

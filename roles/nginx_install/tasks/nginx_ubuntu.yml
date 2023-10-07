@@ -1,0 +1,27 @@
+---
+# tasks file for nginx_install
+
+##### Ubuntu #####
+
+- name: Update apt. Ubuntu
+  apt:
+    update_cache: yes
+
+- name: Install nginx. Ubuntu
+  apt:
+    name: nginx
+    state: latest
+  notify: start nginx
+
+## Clear default files after install
+
+- name: Clear /var/www/html. Ubuntu
+  file:
+    path: /var/www/html/index.nginx-debian.html
+    state: absent
+
+- name: Clear /etc/nginx/sites-enabled. Ubuntu
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+

@@ -1,0 +1,3 @@
+---
+# vars file for hosts_webdav
+# service_name: "{{ 'openvpn' if ansible_distribution == 'Ubuntu' else 'openvpn@client.service' }}"

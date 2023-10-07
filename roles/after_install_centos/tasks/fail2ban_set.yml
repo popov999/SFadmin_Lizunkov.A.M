@@ -1,0 +1,16 @@
+## Fail2ban settings
+- name: Fail2ban settings ssh
+  copy:
+    src: fail2ban.local
+    dest: /etc/fail2ban/jail.d/my-jail.local
+    remote_src: no
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Fail2ban restart
+  systemd:
+    name: fail2ban
+    state: restarted
+    enabled: yes
+

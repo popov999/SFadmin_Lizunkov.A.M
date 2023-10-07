@@ -1,0 +1,6 @@
+---
+# defaults file for openvpn_client
+
+cert_path: "/home/user/easy-rsa/clients/"
+server_ip: "192.168.10.55"
+server_port: "1194"

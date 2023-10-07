@@ -1,0 +1,52 @@
+---
+# tasks file for nginx_install
+
+##### CentOS #####
+
+- name: Check epel.repo. CentOS
+  stat:
+    path: /etc/yum.repos.d/epel.repo
+  register: result
+
+## Instal epel repo
+- name: add epel repo. CentOS
+  yum:
+    name: epel-release
+    state: present
+  when: result.stat.exists == false
+
+- name: Update all packages       
+  yum:
+    name: '*'
+    state: latest
+  when: result.stat.exists == false
+
+- name: install nginx. CentOS
+  yum:
+    name: nginx
+    state: latest
+  notify: start nginx
+
+- name: Add system user www-data. CentOS
+  user:
+    name: www-data
+    shell: /sbin/nologin
+    create_home: false
+    home: /var/www
+    system: true
+
+##### Nginx Settings #####
+- name: Create directories for site configuration files. CentOS
+  file:
+    path: "/etc/nginx/{{ item }}"
+    state: directory
+  loop:
+      - 'sites-enabled'
+      - 'sites-available'
+
+- name: Copy the nginx.conf configuration file. CentOS
+  copy:
+    src: nginx.conf
+    dest: /etc/nginx/nginx.conf
+    backup: yes
+

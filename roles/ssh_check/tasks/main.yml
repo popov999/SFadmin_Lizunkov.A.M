@@ -1,0 +1,10 @@
+## Check ssh settings only!!!
+
+# Search Strings in files and subdirectories
+- name: search string PermitRootLogin
+  shell: "grep -ir -e '#passwordauth' -e '^passwordauth' -e '^permitroot' -e '#permitroot' /etc/ssh/sshd_config*"
+  register: result
+
+- name: View results
+  debug:
+    var: result.stdout_lines

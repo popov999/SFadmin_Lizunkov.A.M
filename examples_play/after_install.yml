@@ -1,0 +1,27 @@
+---
+
+- hosts:
+    - host1
+    - host2
+    - host3
+  become: yes
+
+  roles:
+
+    - role: after_install_ubuntu
+      when: ansible_distribution == "Ubuntu"
+
+    - role: after_install_centos
+      when: ansible_distribution == "CentOS"
+
+
+    - role: teleinfo
+      tele_bot: ""
+      tele_id: ""
+      ip_type: "pub"
+
+    - role: ssh_check
+
+    - role: ssh_key_add
+      main_server: 'host1'
+      key_name: "int_rsa"

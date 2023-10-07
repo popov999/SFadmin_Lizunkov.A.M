@@ -1,0 +1,69 @@
+---
+# tasks file for after_install_centos
+
+## Create directories downloads, script
+- name: Create directories downloads, script
+  file:
+    path: "/home/{{ansible_user}}/{{item}}"
+    state: directory
+    owner: "{{ansible_user}}"
+    group: "{{ansible_user}}"
+    mode: 0744
+  loop:
+    - downloads
+    - script
+
+## minimal software installation
+- name: add epel repo
+  yum:
+    name: epel-release
+    state: present
+
+- name: Update all packages to latest version
+  yum:
+    name: '*'
+    state: latest
+
+- name: install packages
+  yum:
+    name:
+      - mc
+      - net-tools
+      - git
+      - nmap
+      - rsync
+      - fail2ban
+      - bash-completion
+      - vim-enhanced
+      - curl
+    state: present
+
+- name: Remove packages and meta
+  shell: yum clean all
+
+
+## enable color scheme in vim
+- name: enable color scheme in vim
+  copy:
+    src: vim.sh
+    dest: /etc/profile.d/vim.sh
+    remote_src: no
+    owner: root
+    group: root
+    mode: 0644
+
+## terminal color
+- name: terminal color
+  blockinfile:
+    block: "{{ lookup('file', './files/bashrc') }}"
+    path: /home/{{ansible_user}}/.bashrc
+#    backup: yes
+
+##### Protect #####
+
+## Fail2ban settings
+- import_tasks: fail2ban_set.yml
+
+## firewald include
+- import_tasks: firewalld_install.yml
+

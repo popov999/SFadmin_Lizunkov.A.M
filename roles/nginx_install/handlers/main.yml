@@ -1,0 +1,8 @@
+---
+# handlers file for nginx_install
+
+- name: start nginx
+  systemd:
+    service: nginx
+    state: "{{nginx_state}}"
+    enabled: "{{nginx_enabled}}"

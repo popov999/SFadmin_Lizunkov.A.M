@@ -1,0 +1,25 @@
+---
+
+- hosts: servers
+
+  vars:
+    my_result: "{{ ansible_play_hosts | map('extract', hostvars,'ansible_ssh_host') | list }}"
+
+  tasks:
+
+  - name: Print my_result
+    debug:
+      msg: "{{my_result}}"
+    when: inventory_hostname == "yandex1.lu"
+  
+  - name: Run zabbix_get
+    shell: zabbix_get -s "{{item}}" -p 10050 -k test
+    register: command_result
+    with_items: "{{my_result}}"
+    when: inventory_hostname == "yandex1.lu"
+
+  - debug:
+      msg: "{{item['stdout']}}"
+    with_items: "{{command_result['results']}}"
+    when: inventory_hostname == "yandex1.lu"
+

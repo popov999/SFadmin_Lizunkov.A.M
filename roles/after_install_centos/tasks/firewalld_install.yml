@@ -1,0 +1,29 @@
+## Setup firewalld
+
+# Get services list and status
+- name: get services
+  ansible.builtin.service_facts:
+
+# Install firewalld
+- name: install firewalld
+  yum:
+    name: firewalld
+    state: present
+  when: ansible_facts.services["firewalld.service"] is not defined
+
+# Service start and enable
+- name: firewalld start
+  systemd:
+    name: firewalld
+    state: started
+    enabled: yes
+
+# Get settings
+- name: firewalld status
+  shell: "firewall-cmd --list-all"
+  register: stat_result
+
+# Debug info
+- name: View info => firewall-cmd --list-all
+  debug:
+    msg: "{{stat_result.stdout_lines}}"
