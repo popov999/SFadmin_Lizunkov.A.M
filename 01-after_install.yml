@@ -1,0 +1,28 @@
+---
+###                 ###
+#   From my Desktop   #
+###                 ###
+
+- hosts: ya_cloud
+  become: yes
+
+  roles:
+
+    - role: after_install_ubuntu
+      when: ansible_distribution == "Ubuntu"
+
+    - role: after_install_centos
+      when: ansible_distribution == "CentOS"
+
+
+    - role: teleinfo
+      tele_bot: ""
+      tele_id: ""
+      ip_type: "pub"
+
+    - role: ssh_check
+
+    - role: ssh_key_add
+      ## Inventory hostname ##
+      main_server: 'yandex1.lu'
+      key_name: "int_rsa"

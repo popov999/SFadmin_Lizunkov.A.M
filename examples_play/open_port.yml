@@ -7,7 +7,7 @@
   roles:
     - role: open_port
       vars:
-        save_rules: "yes"
+        save_rules: "true"
         proto_port: "tcp"
         open_port:
           - "80"

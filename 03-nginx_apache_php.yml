@@ -1,0 +1,45 @@
+---
+###                  ###
+#   From Main server   #
+###                  ###
+
+- hosts:
+    - node1.lu
+    - node2.lu
+  become: yes
+
+  roles:
+    - role: nginx_install
+      nginx_port: 80
+      nginx_server_name: "{{host_server_name}}"
+      nginx_state: "restarted"
+      nginx_enabled: "true"
+
+    - role: open_port
+      save_rules: "true"
+      open_port:
+        - "80"
+        - "443"
+
+    ##### Only node2.lu. CentOS #####
+    
+    - role: apache_install
+      apache_port: 8080
+      apache_server_name: "{{host_server_name}}"
+      apache_state: "restarted"
+      apache_enabled: "true"
+      when: inventory_hostname == "node2.lu"
+
+    - role: php_install
+      version: "82"
+      apache: "yes"
+      when: inventory_hostname == "node2.lu"
+    
+    - role: open_port
+      save_rules: "true"
+      open_port:
+        - "8080"
+      when: inventory_hostname == "node2.lu"
+
+
+

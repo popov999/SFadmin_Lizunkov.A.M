@@ -1,0 +1,25 @@
+---
+###                  ###
+#   From Main server   #
+###                  ###
+
+- hosts:
+    - node1.lu
+    - node2.lu
+  become: yes
+
+  roles:
+    - role: open_port
+      save_rules: "true"
+      open_port:
+        - "80"
+        - "443"
+
+    - role: open_port
+      save_rules: "true"
+      open_port:
+        - "8080"
+      when: inventory_hostname == "node2.lu"
+
+
+

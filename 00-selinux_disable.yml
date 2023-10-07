@@ -1,0 +1,25 @@
+---
+###                 ###
+#   From my Desktop   #
+###                 ###
+- hosts: centos
+  become: yes
+
+  tasks:
+# Disable selinux
+    - name: selinux disable
+      selinux:
+        state: disabled
+
+    - name: reboot and wait 60 sec
+      reboot:
+        reboot_timeout: 60
+        post_reboot_delay: 30
+
+    - name: Get SELinux settings
+      shell: "getenforce && sestatus"
+      register: result
+
+    - name: View SELinux settings
+      debug:
+        msg: "{{result.cmd}} {{result.stdout_lines}}"
