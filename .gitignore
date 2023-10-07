@@ -1,5 +1,7 @@
 ## Inventory
 /hosts
 
+/host_vars
+
 ## Test playbooks
 /test*.yml
