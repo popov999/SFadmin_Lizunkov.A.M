@@ -1,0 +1,99 @@
+---
+- hosts: node3.lu
+  become: yes
+
+##### For UBUNTU only #####
+
+    ##### ATENTION!!! ATENTION!!! #####
+    #                                 #
+    # READ DEBUG AFTER INSTAL PAKAGE  #
+    #                                 #
+    ##### ATENTION!!! ATENTION!!! #####
+    
+  vars:
+      # Source path for deb package on ansible server
+    - src_deb: "/home/{{user_node1}}/downloads/elk8.7.0/deb/"
+
+      # Destination path for deb package on remote server
+    - dest_deb: "downloads"
+
+      # Name of deb package
+    - name_deb: "elasticsearch-8.7.0-amd64.deb"
+
+      # Amount of RAM to use elasticsearch
+    - ram_use: "512m"
+
+  tasks:
+
+    ##### Copy files #####
+
+    - name: Setting short path
+      set_fact:
+        dest_deb: "/home/{{ansible_user}}/{{dest_deb}}"
+
+    - name: Checking the availability of the directory
+      stat:
+        path: "{{dest_deb}}"
+      register: result
+
+    - name: Create directory {{dest_deb}}
+      file:
+        path: "{{dest_deb}}"
+        state: directory
+        owner: "{{ansible_user}}"
+        group: "{{ansible_user}}"
+        mode: 0755
+      when: result.stat.exists == false
+
+    - name: Copy deb packages
+      copy:
+        src: "{{src_deb}}"
+        dest: "{{dest_deb}}"
+        owner: "{{ansible_user}}"
+        group: "{{ansible_user}}"
+        mode: 0744
+
+    ##### Install Elasticsearch #####
+    
+    - name: Runing apt update
+      apt:
+        update_cache: yes
+
+    - name: Installing elasticsearch from deb package
+      apt:
+        deb: "{{dest_deb}}/{{name_deb}}"  
+      register: install_log
+
+    ##### Limit memory for Elasticsearch #####
+
+    - name: Memory Optimization for Elasticsearch
+      template:
+        src: common/templates/elk_jvm.options
+        dest: /etc/elasticsearch/jvm.options.d/ram.options
+        owner: root
+        group: root
+        mode: 0644
+
+    ##### ATENTION!!! ATENTION!!! #####
+    #                                 #
+    # READ DEBUG AFTER INSTAL PAKAGE  #
+    #                                 #
+    ##### ATENTION!!! ATENTION!!! #####
+    
+    ##### Debug #####
+
+    - name: Debug
+      debug: 
+        msg: "READ DEBUG!!!\nREAD DEBUG!!!\nREAD DEBUG!!! "
+
+    - name: Debug
+      debug:
+        var: install_log.stdout_lines
+
+    - name: Save log to << /etc/elasticsearch/install.log >>
+      lineinfile:
+        path: /etc/elasticsearch/install.log
+        line: "{{item}}"
+        create: true
+      with_items: "{{install_log.stdout_lines}}"
+
