@@ -1,0 +1,21 @@
+---
+# tasks file for roles/filebeat_install
+
+##### CentOS #####
+
+- import_tasks: filebeat_centos.yml
+  when: ansible_distribution == "CentOS"
+
+##### Ubuntu #####
+
+- import_tasks: filebeat_ubuntu.yml
+  when: ansible_distribution == "Ubuntu"
+
+##### Configure filebeat #####
+
+- import_tasks: filebeat_conf.yml
+
+##### Configure modules #####
+
+- import_tasks: sys_mod_conf.yml
+

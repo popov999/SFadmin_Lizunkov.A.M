@@ -1,0 +1,29 @@
+---
+# tasks file for roles/filebeat_install
+
+##### Configure filebeat #####
+
+- name: Setting server address and port
+  lineinfile:
+    path: /etc/filebeat/filebeat.yml
+    regexp: "localhost:9200"
+    line: "  hosts: [\"{{elk_server}}\"]"
+
+- name: Setting protocol HTTPS
+  lineinfile:
+    path: /etc/filebeat/filebeat.yml
+    regexp: "#proto.*http"
+    line: "  protocol: \"{{proto}}\""
+
+- name: Setting api_key
+  lineinfile:
+    path: /etc/filebeat/filebeat.yml
+    regexp: "id:api_key"
+    line: "  api_key: \"{{api_key}}\""
+
+- name: Setting fingerprint
+  lineinfile:
+    path: /etc/filebeat/filebeat.yml
+    insertafter: " api_key:"
+    line: "  ssl.ca_trusted_fingerprint: \"{{fingerprint}}\""
+

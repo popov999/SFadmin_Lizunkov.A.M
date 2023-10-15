@@ -36,6 +36,7 @@
       - bash-completion
       - vim-enhanced
       - curl
+      - wget
     state: present
 
 - name: Remove packages and meta

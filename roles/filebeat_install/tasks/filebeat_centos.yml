@@ -1,0 +1,46 @@
+---
+# tasks file for roles/filebeat_install
+
+##### FOR CENTOS ONLY #####
+
+##### Copy files #####
+
+- name: Setting short path
+  set_fact:
+    dest_rpm: "/home/{{ansible_user}}/{{dest_rpm}}"
+
+- name: Checking the availability of the directory
+  stat:
+    path: "{{dest_rpm}}"
+  register: result
+
+- name: Create directory {{dest_rpm}}
+  file:
+    path: "{{dest_rpm}}"
+    state: directory
+    owner: "{{ansible_user}}"
+    group: "{{ansible_user}}"
+    mode: 0755
+  when: result.stat.exists == false
+
+- name: Copy rpm packages
+  copy:
+    src: "{{src_rpm}}/{{filebeat_rpm}}"
+    dest: "{{dest_rpm}}"
+    owner: "{{ansible_user}}"
+    group: "{{ansible_user}}"
+    mode: 0744
+
+##### Install filebeat #####
+
+- name: Update all packages. CentOS
+  yum:
+    name: '*'
+    state: latest
+
+
+- name: Installing filebeat from rpm package
+  yum:
+    name: "{{dest_rpm}}/{{filebeat_rpm}}"
+    state: present
+

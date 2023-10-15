@@ -1,6 +1,6 @@
 *filter
-:INPUT DROP [146:33360]
-:FORWARD ACCEPT [0:0]
+:INPUT DROP [0:0]
+:FORWARD DROP [0:0]
 :OUTPUT ACCEPT [0:0]
 -A INPUT -p tcp -m tcp --dport 22 -j ACCEPT
 -A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT

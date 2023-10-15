@@ -1,0 +1,26 @@
+---
+# tasks file for roles/filebeat_install
+
+##### Configure modules #####
+
+- name: Set to enable config reloading
+  lineinfile:
+    path: /etc/filebeat/filebeat.yml
+    regexp: "rel.*en.*fal"
+    insertafter: ".*beat.*conf.*mod"
+    line: "  reload.enabled: true"
+    backup: true
+
+- name: Enable module name system.yml
+  shell: "filebeat modules enable system"
+
+- name: Configure module system (auth)
+  lineinfile:
+    path: /etc/filebeat/modules.d/system.yml
+    insertafter: "  auth:"
+    regexp: "en.*fal"
+    line: "    enabled: true"
+    backup: true
+
+
+
