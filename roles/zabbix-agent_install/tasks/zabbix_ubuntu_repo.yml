@@ -1,0 +1,16 @@
+##### UBUNTU ######
+- name: Add DEB repository for Zabbix v6.0 LTS (Ubnuntu 22.04)
+  apt:
+    deb: https://repo.zabbix.com/zabbix/6.0/ubuntu/pool/main/z/zabbix-release/zabbix-release_6.0-4+ubuntu22.04_all.deb
+    state: present
+  when: ansible_distribution_version == "22.04"
+
+- name: Add DEB repository for Zabbix v6.0 LTS (Ubnuntu 20.04)
+  apt:
+    deb: https://repo.zabbix.com/zabbix/6.0/ubuntu/pool/main/z/zabbix-release/zabbix-release_6.0-4+ubuntu20.04_all.deb
+    state: present
+  when: ansible_distribution_version == "20.04"
+
+- name: Update cache. Ubuntu
+  apt:
+    update_cache: true

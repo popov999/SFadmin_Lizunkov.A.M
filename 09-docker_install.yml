@@ -1,0 +1,60 @@
+---
+
+- hosts:
+    - node1
+    - node3
+  become: yes
+
+    #================== For Ubuntu 22.04.3 LTS ==================#
+    #======================= Install docker from curl ======================#
+
+  vars:
+      # The path to save the installation file
+    - dir_name: "/home/{{ansible_user}}/downloads"
+
+  tasks:
+
+      ## apt update
+    - name: Update repositories cache
+      apt:
+        update_cache: yes
+
+    - name: Checking the availability of the directory
+      stat:
+        path: "{{dir_name}}"
+      register: result
+
+    - name: Create directory {{dir_name}}
+      file:
+        path: "{{dir_name}}"
+        state: directory
+        owner: "{{ansible_user}}"
+        group: "{{ansible_user}}"
+        mode: 0755
+      when: result.stat.exists == false
+
+    - name: Get installer
+      uri:
+        url: https://get.docker.com/
+        dest: "{{dir_name}}/install-docker.sh"
+        owner: "{{ansible_user}}"
+        group: "{{ansible_user}}"
+        mode: 0654
+
+    - name: Install docker from script
+      shell: "{{dir_name}}/install-docker.sh"
+
+    - name: Add user in group docker
+      user:
+        name: "{{ansible_user}}"
+        groups: docker
+        append: yes
+          
+
+    - name: Create directory docker
+      file:
+        path: "/home/{{ansible_user}}/docker"
+        state: directory
+        owner: "{{ansible_user}}"
+        group: "{{ansible_user}}"
+        mode: 0755

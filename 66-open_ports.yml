@@ -4,8 +4,8 @@
 ###                  ###
 
 - hosts:
-    - node1.lu
-    - node2.lu
+    - node1
+    - node2
   become: yes
 
   roles:
@@ -19,7 +19,7 @@
       save_rules: "true"
       open_port:
         - "8080"
-      when: inventory_hostname == "node2.lu"
+      when: inventory_hostname == "node2"
 
 
 

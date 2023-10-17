@@ -4,8 +4,8 @@
 ###                  ###
 
 - hosts:
-    - node1.lu
-    - node2.lu
+    - node1
+    - node2
   become: yes
 
   roles:
@@ -21,25 +21,25 @@
         - "80"
         - "443"
 
-    ##### Only node2.lu. CentOS #####
+    ##### Only node2. CentOS #####
     
     - role: apache_install
       apache_port: 8080
       apache_server_name: "{{host_server_name}}"
       apache_state: "restarted"
       apache_enabled: "true"
-      when: inventory_hostname == "node2.lu"
+      when: inventory_hostname == "node2"
 
     - role: php_install
       version: "82"
       apache: "yes"
-      when: inventory_hostname == "node2.lu"
+      when: inventory_hostname == "node2"
     
     - role: open_port
       save_rules: "true"
       open_port:
         - "8080"
-      when: inventory_hostname == "node2.lu"
+      when: inventory_hostname == "node2"
 
 
 

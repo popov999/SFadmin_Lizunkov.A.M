@@ -1,0 +1,21 @@
+---
+###                  ###
+#   From Main server   #
+###                  ###
+
+- hosts: all
+
+  become: yes
+
+  roles:
+    - role: zabbix-agent_install 
+      zabbix_server: "{{zbx_server}}"
+      repo_inst: "true"
+ 
+
+    - role: open_port
+      save_rules: "true"
+      open_port: "10050"
+
+
+

@@ -2,4 +2,4 @@
 - hosts: localhost
   remote_user: root
   roles:
-    - roles/php_install
+    - roles/zabbix-agent_install
