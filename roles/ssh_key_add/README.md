@@ -1,10 +1,22 @@
-Example Playbook
-----------------
+Прокатывать с личного ПК!!!
+
+Эта роль генерирует ключи для доступа к клиентам на сервере с ansible.
+Копирует публичные ключи на клиентские машины.
+Изменяет конфиг ssh сервера с ansible для использования закрытого ключа с указанным именем в переменной "key_name".
+
+Прокатывать с личного ПК!!!
+
+Используемые переменные:
+- main_server: 'node1' - сервер с ansible в hosts.
+- key_name: "int_rsa" - имя для ключа.
+
+Пример плейбука:
+
 - hosts: servers
   become: yes
 
   roles:
     - role: ssh_key_add
-      main_server: '<inventory_hostname>'
+      main_server: 'node1'
       key_name: "int_rsa"
 

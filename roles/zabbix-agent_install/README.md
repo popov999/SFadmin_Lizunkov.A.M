@@ -1,38 +1,28 @@
-Role Name
-=========
+Эта роль устанавливает zabbix-agent для Ubuntu и CentOS.
 
-A brief description of the role goes here.
+Подключает репо для Zabbix v6.0 LTS.
+Устанавливает пакет zabbix-agent.
+Выполняет конфигурацию агента с указанием "Server=" и "Hostname=".
 
-Requirements
-------------
+Hostname берется из переменной ansible_hostname и такое же имя должен
+использовать Zabbix Server!!!
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+Копирует небольшой скрипт (UserParameter) для проверки соединения с Zabbix Server.
 
-Role Variables
---------------
+На сервере можно выполнить в терминале:
+'zabbix_get -s 10.11.12.2 -k test'
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+Пример плейбука:
 
-Dependencies
-------------
+- hosts: all
+  become: yes
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+  roles:
+    - role: zabbix-agent_install
+      zabbix_server: "{{zbx_server}}"
+      repo_inst: "true"
 
-Example Playbook
-----------------
+    - role: open_port
+      save_rules: "true"
+      open_port: "10050"
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
-
-License
--------
-
-BSD
-
-Author Information
-------------------
-
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).

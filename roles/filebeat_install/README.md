@@ -1,38 +1,56 @@
-Role Name
-=========
+Эта роль устанавливает filebeat из пакетов deb или rpm.
 
-A brief description of the role goes here.
+Включает модуль system для первоначальной записи логов в Elasticsearch.
 
-Requirements
-------------
+Плейбук заточен конкретно для использования https, api_key,fingerprint 
+при подключении к Elasticsearch 8.
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+Он пока не является универасльным!!!
 
-Role Variables
---------------
+При использовании переменных для указания путей к файлам необходимо 
+внимательно прописывать "/". Иногда могут возникать ошибки.
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+Все выполняемые действия и необходимые переменные для использования я постарался описать в файлах которые расположены в папке этой роли.
 
-Dependencies
-------------
+Пример плейбука:
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+---
+- hosts: all
+  become: yes
 
-Example Playbook
-----------------
+  roles:
+    - role: filebeat_install
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+      ##### UBUNTU #####
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+      # Source directory for deb package on ansible server: "/path1/path2"
+      src_deb: "/home/{{user_node1}}/downloads/elk8.7.0/deb"
 
-License
--------
+      # Destination directory for deb package on remote server: "name"
+      dest_deb: "downloads"
 
-BSD
+      # Name of deb package for elasticsearch: "name.deb"
+      filebeat_deb: "filebeat-8.7.0-amd64.deb"
 
-Author Information
-------------------
+      ##### CentOS #####
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+      # Source directory for rpm package on ansible server: "/path1/path2"
+      src_rpm: "/home/{{user_node1}}/downloads/elk8.7.0/rpm"
+
+      # Destination directory for rpm package on remote server: "name"
+      dest_rpm: "downloads"
+
+      # Name of rpm package for elasticsearch: "name.rpm"
+      filebeat_rpm: "filebeat-8.7.0-x86_64.rpm"
+
+      ##### Server #####
+
+      # IP adress(url)  and port Elasticsearch server: "ip_addres:port"
+      elk_server: "{{elk_server1}}"
+
+      # api_key: "id:api_key"
+      api_key: "{{api_key1}}"
+
+      # ssl.ca_trusted_fingerprint: "fingerprint" 
+      fingerprint: "{{fingerprint1}}"
+
