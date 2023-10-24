@@ -1,0 +1,52 @@
+---
+##### Add Ubuntu repo #####
+- import_tasks: zabbix_ubuntu_repo.yml
+  when: ansible_distribution == "Ubuntu" and repo_inst == "true"
+
+##### Add CentOS repo #####
+- import_tasks: zabbix_centos_repo.yml
+  when: ansible_distribution == "CentOS" and repo_inst == "true"
+
+##### Install zabbix-agent for Ubuntu #####
+- name: Install zabbix-agent (Ubuntu)
+  apt:
+    name: zabbix-agent
+    state: present
+  when: ansible_distribution == "Ubuntu"
+
+##### Install zabbix-agent for CentOS #####
+- name: Install zabbix-agent (CentOS)
+  yum:
+    name: zabbix-agent
+    state: present
+  when: ansible_distribution == "CentOS"
+
+##### Configure /etc/zabbix/zabbix_agentd.conf #####
+
+- name: Wait config file /etc/zabbix/zabbix_agentd.conf
+  wait_for:
+    path: /etc/zabbix/zabbix_agentd.conf
+
+- name: Change Server
+  replace:
+    path: "/etc/zabbix/zabbix_agentd.conf"
+    regexp: '^Server=(.*)$'
+    replace: 'Server={{zabbix_server}}'
+
+- name: Change Hostname
+  replace:
+    path: "/etc/zabbix/zabbix_agentd.conf"
+    regexp: '^Hostname=(.*)$'
+    replace: 'Hostname={{ansible_hostname}}'
+
+- name: Install UserParameter test
+  template:
+    src: zabbix_test.conf
+    dest: /etc/zabbix/zabbix_agentd.d/zabbix_test.conf
+
+##### Restart and Enable service
+- name: Systemd
+  systemd:
+    name: zabbix-agent
+    state: restarted
+    enabled: yes

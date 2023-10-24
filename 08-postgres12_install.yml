@@ -1,0 +1,44 @@
+---
+
+- hosts:
+    - node3
+  become: yes
+
+    #================== For Ubuntu 22.04.3 LTS ==================#
+    #======================= PostgreSQL-12 ======================#
+
+  tasks:
+
+    # Create the file repository configuration
+    - name: Create the file repository configuration
+      lineinfile:
+        path: /etc/apt/sources.list.d/postgresql.list
+        line: "deb [signed-by=/etc/apt/keyrings/postgresql.gpg] https://apt.postgresql.org/pub/repos/apt {{ansible_distribution_release}}-pgdg main"
+        create: true
+    
+
+    # Import the repository signing key
+    - name: Import postgresql repo key
+      apt_key:
+        url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
+        state: present
+
+
+    - name: Export postgresql repo key
+      shell: "apt-key export ACCC4CF8 | gpg --dearmour -o /etc/apt/keyrings/postgresql.gpg"
+     
+    - name: Delete key from apt-key
+      shell: "apt-key del ACCC4CF8"
+
+      ## apt update
+    - name: Update repositories cache
+      apt:
+        update_cache: yes
+
+      ## Install package
+    - name: Install postgresql-12
+      apt:
+        name: postgresql-12
+   
+    - name: Start postgresql-12
+      shell: "pg_ctlster 12 main start" 

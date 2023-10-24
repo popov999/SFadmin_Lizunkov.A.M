@@ -11,4 +11,4 @@
   roles:
     - role: openvpn_client
       cert_path: "/home/user/easy-rsa/clients/"
-      server_ip: "84.10.10.10"
+      server_ip: "{{vpn_server_ip}}"

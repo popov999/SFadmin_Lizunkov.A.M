@@ -10,5 +10,5 @@
 
   - name: Iptables save rules
     shell: netfilter-persistent save
-    when: save_rules == "yes"
+    when: save_rules == "true"
 

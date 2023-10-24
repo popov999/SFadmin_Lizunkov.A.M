@@ -1,0 +1,5 @@
+---
+# defaults file for roles/zabbix-agent_install
+
+zabbix_server: "192.168.15.15"
+repo_inst: "true"
