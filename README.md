@@ -14,9 +14,9 @@
 
 
 hosts:
-  node1 - ansible
-  node2 - web server
-  node3 - ELK
+  - node1 - ansible
+  - node2 - web server
+  - node3 - ELK
 
 Сервисы установленные с использованием ansible:
 
