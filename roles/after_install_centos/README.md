@@ -23,9 +23,13 @@
 
 Пример плейбука:
 
-- hosts: servers
-  become: yes
+	- hosts: servers
+	  become: yes
 
-  roles:
-    - role: after_install_centos
-      when: ansible_distribution == "CentOS"
+	  roles:
+	    - role: after_install_centos
+	      when: ansible_distribution == "CentOS"
+
+    - hosts: servers
+      roles:
+         - { role: username.rolename, x: 42 }
