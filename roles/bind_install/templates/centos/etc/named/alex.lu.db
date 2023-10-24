@@ -1,0 +1,35 @@
+;
+$TTL 30m
+@ IN SOA ns1.alex.lu. admin1026.alex.lu. (
+202307052 ; serial
+5h ; renew period
+5m ; retry
+1w ; expire
+30m ); denial cache;
+
+; 
+@ IN NS ns1.alex.lu.
+ns1 IN A 84.252.129.143
+
+; 
+@ IN A 84.252.129.143
+alex.lu. IN A 84.252.129.143
+
+; 
+@ IN MX 20 mail.alex.lu.
+database.alex.lu. IN MX 20 mail.alex.lu.
+webserver.alex.lu. IN MX 20 mail.alex.lu.
+
+; CNAME
+www IN CNAME alex.lu.
+
+;
+mail IN A 84.252.129.143
+database IN A 84.252.129.143
+
+;
+webserver IN A 84.252.141.10
+site1 IN A 84.252.141.10
+site2 IN A 84.252.141.10
+ftp IN A 84.252.141.10
+

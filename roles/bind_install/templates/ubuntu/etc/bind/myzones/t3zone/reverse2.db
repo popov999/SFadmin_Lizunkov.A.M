@@ -1,0 +1,20 @@
+;
+$TTL 30m
+@ IN SOA webserver.t3zone. admin1026.t3zone. (
+202307053 ; serial
+5h ; renew period
+5m ; retry
+1w ; expire
+30m ); denial cache;
+
+; 
+@ IN NS webserver.t3zone.
+
+; 
+@ IN A 158.168.24.196
+
+;
+196 IN PTR webserver.t3zone.
+196 IN PTR site1.t3zone.
+196 IN PTR site2.t3zone.
+196 IN PTR ftp.t3zone.

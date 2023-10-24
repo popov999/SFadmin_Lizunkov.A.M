@@ -1,0 +1,43 @@
+---
+# defaults file for roles/filebeat_install
+
+###### Ubuntu #####
+
+# Source directory for deb package on ansible server: "/path1/path2"
+src_deb: ""
+
+# Destination directory for deb package on remote server: "name"
+dest_deb: ""
+
+# Name of deb package for elasticsearch: "name.deb"
+filebeat_deb: ""
+
+
+###### CentOS #####
+
+# Source directory for rpm package on ansible server: "/path1/path2"
+src_rpm: ""
+
+# Destination directory for rpm package on remote server: "name"
+dest_rpm: ""
+
+# Name of rpm package for elasticsearch: "name.rpm"
+filebeat_rpm: ""
+
+
+
+
+##### Configure filebeat #####
+
+# IP adress(url)  and port Elasticsearch server: "ip_addres:port"
+elk_server: ""
+
+# Protocol for Elasticsearch server
+proto: "https"
+
+# api_key: "id:api_key"
+api_key: ""
+
+# ssl.ca_trusted_fingerprint: "fingerprint"
+fingerprint: ""
+

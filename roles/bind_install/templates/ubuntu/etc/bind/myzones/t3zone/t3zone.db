@@ -1,0 +1,32 @@
+;
+$TTL 30m
+@ IN SOA t3zone. admin1026.t3zone. (
+202307052 ; serial
+5h ; renew period
+5m ; retry
+1w ; expire
+30m ); denial cache;
+
+; 
+@ IN NS t3zone.
+
+; 
+@ IN A 84.201.178.196
+t3zone. IN A 84.201.178.196
+; 
+@ IN MX 20 mail.t3zone.
+database.t3zone. IN MX 20 mail.t3zone.
+webserver.t3zone. IN MX 20 mail.t3zone.
+
+; CNAME
+www IN CNAME t3zone.
+
+;
+mail IN A 84.201.178.196
+database IN A 84.201.178.196
+
+;
+webserver IN A 158.160.24.196
+site1 IN A 158.160.24.196
+site2 IN A 158.160.24.196
+ftp IN A 158.160.24.196

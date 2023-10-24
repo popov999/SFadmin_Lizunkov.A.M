@@ -1,0 +1,32 @@
+;
+$TTL 30m
+@ IN SOA alex.lu. admin1026.alex.lu. (
+202307052 ; serial
+5h ; renew period
+5m ; retry
+1w ; expire
+30m ); denial cache;
+
+; 
+@ IN NS alex.lu.
+
+
+; 
+@ IN A 84.252.129.143
+
+;
+143 IN PTR alex.lu.
+143 IN PTR ns1.alex.lu.
+143 IN PTR mail.alex.lu.
+143 IN PTR database.alex.lu.
+
+
+;
+IN A 10.141.252.84
+
+;
+10 IN PTR webserver.alex.lu.
+10 IN PTR site1.alex.lu.
+10 IN PTR site2.alex.lu.
+10 IN PTR ftp.alex.lu.
+

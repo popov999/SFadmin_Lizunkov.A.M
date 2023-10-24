@@ -1,0 +1,43 @@
+---
+# tasks file for roles/filebeat_install
+
+##### FOR UBUNTU ONLY #####
+
+    ##### Copy files #####
+
+    - name: Setting short path
+      set_fact:
+        dest_deb: "/home/{{ansible_user}}/{{dest_deb}}"
+
+    - name: Checking the availability of the directory
+      stat:
+        path: "{{dest_deb}}"
+      register: result
+
+    - name: Create directory {{dest_deb}}
+      file:
+        path: "{{dest_deb}}"
+        state: directory
+        owner: "{{ansible_user}}"
+        group: "{{ansible_user}}"
+        mode: 0755
+      when: result.stat.exists == false
+
+    - name: Copy deb packages
+      copy:
+        src: "{{src_deb}}/{{filebeat_deb}}"
+        dest: "{{dest_deb}}"
+        owner: "{{ansible_user}}"
+        group: "{{ansible_user}}"
+        mode: 0744
+
+    ##### Install filebeat #####
+
+    - name: Runing apt update
+      apt:
+        update_cache: yes
+
+    - name: Installing filebeat from deb package
+      apt:
+        deb: "{{dest_deb}}/{{filebeat_deb}}"
+

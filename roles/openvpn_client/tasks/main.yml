@@ -53,7 +53,7 @@
 
   when: ansible_distribution == "CentOS"
 
-## Get a short hostname      
+## Get a short hostname  ( node3.lu >> node3 )   
 - name: Get a short hostname
   set_fact:
     vpn_client: "{{ inventory_hostname.split('.')[0] }}"

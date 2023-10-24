@@ -1,0 +1,17 @@
+zone "alex.lu" {
+        type master;
+        file "/etc/named/alex.lu.db";
+};
+
+
+zone "129.252.84.in-addr.arpa" {
+        type master;
+        file "/etc/named/alex.lu.reverse.db";
+};
+
+
+zone "141.252.84.in-addr.arpa" {
+        type master;
+        file "/etc/named/alex.lu.reverse.db";
+};
+

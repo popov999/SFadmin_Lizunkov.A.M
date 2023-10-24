@@ -1,0 +1,22 @@
+;
+$TTL 30m
+@ IN SOA t3zone. admin1026.t3zone. (
+202307052 ; serial
+5h ; renew period
+5m ; retry
+1w ; expire
+30m ); denial cache;
+
+; 
+@ IN NS t3zone.
+
+; 
+@ IN A 84.201.178.196
+
+;
+196 IN PTR t3zone.
+196 IN PTR mail.t3zone.
+196 IN PTR database.t3zone.
+
+;
+196.24.168.158 IN PTR webserver.t3zone
