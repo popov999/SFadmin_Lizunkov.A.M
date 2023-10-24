@@ -10,7 +10,7 @@
 
   vars:
       # The path to save the installation file
-    - dir_name: "/home/{{ansible_user}}/downloads"
+    - dir_name: "/home/{{ansible_user}}/docker"
 
   tasks:
 
@@ -49,12 +49,3 @@
         name: "{{ansible_user}}"
         groups: docker
         append: yes
-          
-
-    - name: Create directory docker
-      file:
-        path: "/home/{{ansible_user}}/docker"
-        state: directory
-        owner: "{{ansible_user}}"
-        group: "{{ansible_user}}"
-        mode: 0755
