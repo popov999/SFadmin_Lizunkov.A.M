@@ -6,13 +6,13 @@
 Создает директории download и script.
 
 Устанавливает следующие пакеты:
-      - mc
-      - net-tools
-      - git
-      - nmap
-      - fail2ban
-      - curl
-      - iptables-persistent
+	- mc
+	- net-tools
+	- git
+	- nmap
+	- fail2ban
+	- curl
+	- iptables-persistent
 
 Выставляет минимальный набор правил для iptables:
 

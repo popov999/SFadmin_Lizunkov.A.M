@@ -18,20 +18,15 @@
 ## Не забываем открыть нужные порты 80,443 для поучения сертификатов и указанный порт.
 
 
-Example Playbook
-----------------
+	- hosts:
+	    - host1
+	    - host2
+	  become: yes
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-- hosts:
-    - host1
-    - host2
-  become: yes
-
-  roles:
-    - role: nginx_install
-      nginx_port: 8080
-      nginx_server_name: "examle.com"
-      nginx_state: "started"
-      nginx_enabled: "false"
+	  roles:
+	    - role: nginx_install
+	      nginx_port: 8080
+	      nginx_server_name: "examle.com"
+	      nginx_state: "started"
+	      nginx_enabled: "false"
 

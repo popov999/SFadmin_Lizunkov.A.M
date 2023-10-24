@@ -7,16 +7,16 @@
 Прокатывать с личного ПК!!!
 
 Используемые переменные:
-- main_server: 'node1' - сервер с ansible в hosts.
-- key_name: "int_rsa" - имя для ключа.
+	- main_server: 'node1' - сервер с ansible в hosts.
+	- key_name: "int_rsa" - имя для ключа.
 
 Пример плейбука:
 
-- hosts: servers
-  become: yes
+	- hosts: servers
+	  become: yes
 
-  roles:
-    - role: ssh_key_add
-      main_server: 'node1'
-      key_name: "int_rsa"
+	  roles:
+	    - role: ssh_key_add
+	      main_server: 'node1'
+	      key_name: "int_rsa"
 

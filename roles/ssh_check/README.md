@@ -4,8 +4,8 @@
 
 Пример плейбука: 
 
-- hosts: ya_cloud
-  become: yes
-  roles:
-    - role: ssh_check
+	- hosts: ya_cloud
+	  become: yes
+	  roles:
+	    - role: ssh_check
 

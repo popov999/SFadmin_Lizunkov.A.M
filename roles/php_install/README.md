@@ -8,11 +8,11 @@
 
 Пример плейбука:
 
-- hosts:
-    - node2
-  become: yes
-  roles: 
-    - role: php_install
-      version: "82"
-      apache: "yes"
-      when: inventory_hostname == "node2"
+	- hosts:
+	    - node2
+	  become: yes
+	  roles: 
+	    - role: php_install
+	      version: "82"
+	      apache: "yes"
+	      when: inventory_hostname == "node2"

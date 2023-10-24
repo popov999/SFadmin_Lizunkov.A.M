@@ -14,15 +14,15 @@ Hostname берется из переменной ansible_hostname и такое
 
 Пример плейбука:
 
-- hosts: all
-  become: yes
+	- hosts: all
+	  become: yes
 
-  roles:
-    - role: zabbix-agent_install
-      zabbix_server: "{{zbx_server}}"
-      repo_inst: "true"
+	  roles:
+	    - role: zabbix-agent_install
+	      zabbix_server: "{{zbx_server}}"
+	      repo_inst: "true"
 
-    - role: open_port
-      save_rules: "true"
-      open_port: "10050"
+	    - role: open_port
+	      save_rules: "true"
+	      open_port: "10050"
 
