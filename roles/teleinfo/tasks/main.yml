@@ -11,11 +11,14 @@
 
 - name: Install script
   template:
-    src: "{{ip_type}}.sh"
+    src: "{{item}}.sh"
     dest: "/home/{{ansible_user}}/script/teleinfo.sh"
     owner: "{{ansible_user}}"
     group: "{{ansible_user}}"
     mode: 0744
+  with_items:
+    - "{{ip_type}}.start"
+    - "{{ip_type}}.stop"
 
 - name: Install service
   template:
