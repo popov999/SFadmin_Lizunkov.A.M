@@ -1,7 +1,7 @@
 #!/bin/bash
 
 HOST_NAME=`hostname`
-IP_ADDR=`curl 2ip.ru
+IP_ADDR=`curl 2ip.ru`
 
 tele_token="{{tele_bot}}"
 tele_id="{{tele_id}}"

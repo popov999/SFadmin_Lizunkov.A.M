@@ -5,8 +5,8 @@ Description=Send to telegram
 Type=oneshot
 RemainAfterExit=yes
 User=root
-ExecStart=/home/{{ansible_user}}/script/tele.start.sh
-ExecStop=/home/{{ansible_user}}/script/tele.stop.sh
+ExecStart=/home/{{ansible_user}}/script/{{ip_type}}.start.sh
+ExecStop=/home/{{ansible_user}}/script/{{ip_type}}.stop.sh
 
 [Install]
 WantedBy=multi-user.target

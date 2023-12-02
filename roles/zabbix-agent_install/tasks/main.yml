@@ -3,6 +3,10 @@
 - import_tasks: zabbix_ubuntu_repo.yml
   when: ansible_distribution == "Ubuntu" and repo_inst == "true"
 
+##### Add Debian repo #####
+- import_tasks: zabbix_debian_repo.yml
+  when: ansible_distribution == "Debian" and repo_inst == "true"
+
 ##### Add CentOS repo #####
 - import_tasks: zabbix_centos_repo.yml
   when: ansible_distribution == "CentOS" and repo_inst == "true"
@@ -13,6 +17,13 @@
     name: zabbix-agent
     state: present
   when: ansible_distribution == "Ubuntu"
+
+##### Install zabbix-agent for Debian #####
+- name: Install zabbix-agent (Debian)
+  apt:
+    name: zabbix-agent
+    state: present
+  when: ansible_distribution == "Debian"
 
 ##### Install zabbix-agent for CentOS #####
 - name: Install zabbix-agent (CentOS)
