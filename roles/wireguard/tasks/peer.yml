@@ -1,0 +1,57 @@
+---
+# tasks file for roles/wireguard
+
+# =========== For Server ==========
+- name: Get public key for peers
+  shell: cat /etc/wireguard/publickey
+  register: result
+  when: inventory_hostname == server_ansible
+
+# =========== For Peer ==========
+- name: for peer
+  block:
+
+    - name: update apt
+      apt:
+        update_cache: yes
+
+    - name: install packages
+      apt:
+        name:
+          - wireguard
+        state: present
+
+    - name: copy installation script
+      template:
+        src: peer.sh
+        dest: /etc/wireguard
+        owner: root
+        group: root
+        mode: 0500
+
+    - name: run installation script
+      shell: "/etc/wireguard/peer.sh"
+
+    - name: get public key for server
+      shell: cat /etc/wireguard/publickey
+      register: result
+
+  when: inventory_hostname == peer_ansible
+
+# =========== For Server ==========
+- name: for server
+  block:
+
+    - name: copy configure script
+      template:
+        src: peer_to_server.sh
+        dest: /etc/wireguard
+        owner: root
+        group: root
+        mode: 0500
+
+
+    - name: run configure script
+      shell: "/etc/wireguard/peer_to_server.sh"
+
+  when: inventory_hostname == server_ansible
