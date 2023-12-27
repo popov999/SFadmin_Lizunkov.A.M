@@ -41,4 +41,4 @@
         name: postgresql-12
    
     - name: Start postgresql-12
-      shell: "pg_ctlster 12 main start" 
+      shell: "pg_ctlcluster 12 main start" 
