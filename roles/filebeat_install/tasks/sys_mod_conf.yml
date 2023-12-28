@@ -22,5 +22,16 @@
     line: "    enabled: true"
     backup: true
 
+- name: Enable module name elasticsearch.yml
+  shell: "filebeat modules enable elasticsearch"
+
+- name: Configure module elasticsearch (server)
+  lineinfile:
+    path: /etc/filebeat/modules.d/elasticsearch.yml
+    insertafter: "  server:"
+    regexp: "en.*fal"
+    line: "    enabled: true"
+    backup: true
+
 
 

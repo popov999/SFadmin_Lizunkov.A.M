@@ -32,8 +32,8 @@ filebeat_rpm: ""
 # IP adress(url)  and port Elasticsearch server: "ip_addres:port"
 elk_server: ""
 
-# Protocol for Elasticsearch server
-proto: "https"
+# Protocol for Elasticsearch server "http" or "https"
+proto: ""
 
 # api_key: "id:api_key"
 api_key: ""

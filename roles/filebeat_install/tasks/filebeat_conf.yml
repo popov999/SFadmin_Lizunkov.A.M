@@ -3,7 +3,7 @@
 
 ##### Configure filebeat #####
 
-- name: Setting server address and port
+- name: Setting server address and port Elasticsearch
   lineinfile:
     path: /etc/filebeat/filebeat.yml
     regexp: "localhost:9200"
@@ -14,16 +14,19 @@
     path: /etc/filebeat/filebeat.yml
     regexp: "#proto.*http"
     line: "  protocol: \"{{proto}}\""
+  when: proto is defined
 
 - name: Setting api_key
   lineinfile:
     path: /etc/filebeat/filebeat.yml
     regexp: "id:api_key"
     line: "  api_key: \"{{api_key}}\""
+  when: api_key is defined
 
 - name: Setting fingerprint
   lineinfile:
     path: /etc/filebeat/filebeat.yml
     insertafter: " api_key:"
     line: "  ssl.ca_trusted_fingerprint: \"{{fingerprint}}\""
+  when: fingerprint is defined
 
