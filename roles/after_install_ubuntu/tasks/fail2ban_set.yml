@@ -1,3 +1,11 @@
+## INstall
+- name: install packages
+  apt:
+    name:
+      - fail2ban
+    state: present
+
+
 ## Fail2ban settings
 - name: Fail2ban settings ssh
   copy:

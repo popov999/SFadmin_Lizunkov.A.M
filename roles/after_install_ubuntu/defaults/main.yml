@@ -1,0 +1,8 @@
+---
+# defaults file for apache_install
+
+# Install (false, true). Default "false"
+fail2ban: "false"
+
+# Enable (iptables, ufw). Default "false"
+firewall: "false"

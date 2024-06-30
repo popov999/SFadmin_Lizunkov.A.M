@@ -31,7 +31,6 @@
       - net-tools
       - git
       - nmap
-      - fail2ban
       - curl
     state: present
 
@@ -39,4 +38,4 @@
 
 ## Fail2ban settings
 - import_tasks: fail2ban_set.yml
-
+  when: fail2ban == "true"
