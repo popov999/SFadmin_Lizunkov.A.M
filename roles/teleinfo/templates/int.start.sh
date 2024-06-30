@@ -1,7 +1,7 @@
 #!/bin/bash
 
 HOST_NAME=`hostname`
-IP_ADDR=$(ip -br a | grep -e enp -e eth | awk {'print $3'} | cut -d '/' -f1)
+IP_ADDR=$(ip -br a | sed -n '2p' | awk '{print $3}' | cut -d '/' -f1)
 
 tele_token="{{tele_bot}}"
 tele_id="{{tele_id}}"

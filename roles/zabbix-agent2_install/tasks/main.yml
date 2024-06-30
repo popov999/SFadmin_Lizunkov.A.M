@@ -1,0 +1,75 @@
+---
+##### Add Ubuntu repo #####
+- import_tasks: zabbix_ubuntu_repo.yml
+  when: ansible_distribution == "Ubuntu" and repo_inst == "true"
+
+##### Add Debian repo #####
+- import_tasks: zabbix_debian_repo.yml
+  when: ansible_distribution == "Debian" and repo_inst == "true"
+
+##### Add CentOS 7 repo #####
+- import_tasks: zabbix_centos_repo.yml
+  when: ansible_distribution == "CentOS" and repo_inst == "true"
+
+##### Install zabbix-agent for Ubuntu #####
+- name: Install zabbix-agent (Ubuntu)
+  apt:
+    pkg:
+    - zabbix-agent2
+    - zabbix-agent2-plugin-*
+    state: present
+  when: ansible_distribution == "Ubuntu" or ansible_distribution == "Debian"
+
+##### Install zabbix-agent for CentOS 7 #####
+- name: Install zabbix-agent (CentOS)
+  yum:
+    name:
+    - zabbix-agent2
+    - zabbix-agent2-plugin-*
+    state: present
+  when: ansible_distribution == "CentOS"
+
+##### Configure /etc/zabbix/zabbix_agent2.conf #####
+
+- name: Wait config file /etc/zabbix/zabbix_agent2.conf
+  wait_for:
+    path: /etc/zabbix/zabbix_agent2.conf
+
+- name: Change SourceIP
+  replace:
+    path: "/etc/zabbix/zabbix_agent2.conf"
+    regexp: '^SourceIP=(.*)$'
+    replace: 'SourceIP={{source_ip}}'
+  when: source_ip != "null"
+
+- name: Change Server
+  replace:
+    path: "/etc/zabbix/zabbix_agent2.conf"
+    regexp: '^Server=(.*)$'
+    replace: 'Server={{zabbix_server}}'
+
+- name: Change Hostname on ansible_hostname
+  replace:
+    path: "/etc/zabbix/zabbix_agent2.conf"
+    regexp: '^Hostname=(.*)$'
+    replace: 'Hostname={{ansible_hostname}}'
+  when: hostname == "null"
+
+- name: Change Hostname on self
+  replace:
+    path: "/etc/zabbix/zabbix_agent2.conf"
+    regexp: '^Hostname=(.*)$'
+    replace: 'Hostname={{hostname}}'
+  when: hostname != "null"
+
+- name: Install UserParameter test
+  template:
+    src: zabbix_test.conf
+    dest: /etc/zabbix/zabbix_agent2.d/user_parameter.conf
+
+##### Restart and Enable service
+- name: Systemd
+  systemd:
+    name: zabbix-agent2
+    state: restarted
+    enabled: yes
