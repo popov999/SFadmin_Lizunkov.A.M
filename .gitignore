@@ -5,3 +5,6 @@
 
 ## Test playbooks
 /test*.yml
+
+## VirtualBox
+/vbox*
