@@ -1,5 +1,8 @@
+
+
 ## Inventory
 /hosts
+/inventory.yaml
 
 /host_vars
 
@@ -8,3 +11,5 @@
 
 ## VirtualBox
 /vbox*
+
+

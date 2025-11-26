@@ -1,0 +1,4 @@
+Port {{PORT_SSH}}
+PermitRootLogin prohibit-password
+PubkeyAuthentication yes
+PermitEmptyPasswords no

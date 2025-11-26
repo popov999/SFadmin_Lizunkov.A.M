@@ -1,0 +1,17 @@
+---
+
+- hosts:
+    - node1
+    - node3
+  become: yes
+
+  roles:
+
+    - role: wireguard
+      type: "peer"
+      server_ansible: "node1"
+      server_ip: "87.242.101.63"
+      server_port: "51820"
+      peer_ansible: "node3"
+      peer_ip: "10.11.12.3"
+      peer_net: "10.11.12.0"

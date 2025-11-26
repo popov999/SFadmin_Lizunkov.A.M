@@ -1,0 +1,46 @@
+## Check ssh settings only!!!
+
+# Clear /etc/ssh/sshd_config.d/
+
+- name: Find all files in the directory
+  find:
+    paths: "/etc/ssh/sshd_config.d"
+    recurse: yes
+    file_type: any
+  register: items_to_delete
+
+- name: Remove all files, keep the directory
+  file:
+    path: "{{ item.path }}"
+    state: absent
+  loop: "{{ items_to_delete.files }}"
+  when: items_to_delete.files | length > 0
+
+# Copy the new config file
+
+- name: Copy 50-ansible.conf to /etc/ssh/sshd_config.d
+  template:
+    src: sshd_config
+    dest: "/etc/ssh/sshd_config.d/50-ansible.conf"
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Debug
+  debug:
+    msg:
+      - "!!!!! Attention, the SSH port has been changed to {{PORT_SSH}} !!!!!"
+      - "!!!!! The service will be restarted !!!!!!"
+
+# Restart sshd service
+### For Ubunu 24.04 daemon-reload!!!
+
+- name: systemd reload
+  systemd:
+    daemon_reload: yes
+
+- name: Restart sshd service
+  systemd:
+    name: ssh.service
+    state: restarted
+
