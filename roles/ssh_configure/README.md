@@ -24,6 +24,6 @@ PermitEmptyPasswords no
 ### Для применения настроек в Ubuntu 24.04 cloud-init сервис перезагружается в два этапа!!!
 
 1. `# systemctl daemon-reload`
-2. `# systemctl resrart ssh.service`
+2. `# systemctl restart ssh.service`
 
 Или полная перезагрузка сервера вручную.
