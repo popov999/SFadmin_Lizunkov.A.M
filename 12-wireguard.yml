@@ -8,10 +8,10 @@
   roles:
 
     - role: wireguard
-      type: "peer"
-      server_ansible: "node1"
-      server_ip: "87.242.101.63"
-      server_port: "51820"
-      peer_ansible: "node3"
-      peer_ip: "10.11.12.3"
-      peer_net: "10.11.12.0"
+      TYPE: "peer"
+      WG_SERVER_ANSIBLE: "node1"
+      WG_SERVER_IP: "87.27.01.80"
+      WG_SERVER_PORT: "51820"
+      WG_PEER_ANSIBLE: "node3"
+      WG_PEER_IP: "10.11.12.3"
+      WG_PEER_NET: "10.11.12.0"
