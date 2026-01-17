@@ -1,28 +1,17 @@
 ---
-###                 ###
-#   From my Desktop   #
-###                 ###
+###                   ###
+#   From local server   #
+###                   ###
 
-- hosts: ya_cloud
+- hosts: pol3-nas
   become: yes
 
   roles:
-
+    # For Ubuntu cloud-init
     - role: after_install_ubuntu
+      INSTALL_PACKAGES: "false"
       when: ansible_distribution == "Ubuntu"
 
-    - role: after_install_centos
-      when: ansible_distribution == "CentOS"
+    - role: ssh_configure
+      PORT_SSH: 58022
 
-
-    - role: teleinfo
-      tele_bot: ""
-      tele_id: ""
-      ip_type: "pub"
-
-    - role: ssh_check
-
-    - role: ssh_key_add
-      ## Inventory hostname ##
-      main_server: 'yandex1.lu'
-      key_name: "int_rsa"

@@ -11,36 +11,69 @@
     mode: 0744
   loop:
     - downloads
-    - script
+    - scripts
 
 ## minimal software installation
 
-- name: Update apt
-  apt:
-    update_cache: yes
+- name: Updating and installing packages
+  block:
 
+    - name: Update apt
+      apt:
+        update_cache: yes
+    
+    
+    - name: Upgrade packages
+      apt:
+        upgrade: full
+    
+    - name: install packages
+      apt:
+        name:
+          - mc
+          - nmap
+          - git
+          - net-tools
+          - curl
+          - wget
+          - tree
+          - htop
+          - vim
+          - tmux
+          - ufw
+    
+        state: present
+  when: INSTALL_PACKAGES == "true"
 
-- name: Upgrade packages
-  apt:
-    upgrade: full
+## ON .bashrc for default user
 
-- name: install packages
-  apt:
-    name:
-      - mc
-      - net-tools
-      - git
-      - nmap
-      - fail2ban
-      - curl
-      - iptables-persistent
-    state: present
+- name: Copy .bashrc to home directory
+  copy:
+    src: .bashrc
+    dest: /home/{{ansible_user}}/
+    remote_src: no
+    owner: "{{ansible_user}}"
+    group: "{{ansible_user}}"
+    mode: 0644
+
+- name: Add line in /etc/profile
+  blockinfile:
+    path: /etc/profile
+    prepend_newline: true
+      # append_newline: true
+    block: |
+      if [ -f ~/.bashrc ]; then
+          . ~/.bashrc
+      fi
+
+- name: Clear markers "ASIBLE MANAGED BLOCK"
+  lineinfile:
+    path: /etc/profile
+    regexp: "^#.*ANSI.*MAN.*BLOCK"
+    state: absent
 
 ##### Protect #####
 
 ## Fail2ban settings
 - import_tasks: fail2ban_set.yml
-
-## iptables settings
-- import_tasks: iptables_set.yml
-
+  when: fail2ban == "true"

@@ -1,7 +1,15 @@
+
+
 ## Inventory
 /hosts
+/inventory.yaml
 
 /host_vars
 
 ## Test playbooks
 /test*.yml
+
+## VirtualBox
+/vbox*
+
+

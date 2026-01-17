@@ -1,0 +1,16 @@
+---
+###                  ###
+#   From Main server   #
+###                  ###
+
+- hosts:
+    - node3
+
+  become: yes
+
+  roles:
+    - role: zabbix-agent2_install
+      hostname: "node3" 
+      zabbix_server: "192.168.10.200,10.11.13.1"
+      repo_inst: "true"
+ 

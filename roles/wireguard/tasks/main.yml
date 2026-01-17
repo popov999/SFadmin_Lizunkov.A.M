@@ -1,0 +1,10 @@
+---
+# tasks file for roles/wireguard
+
+# install wireguard
+
+- import_tasks: server.yml
+  when: type == "server"
+
+- import_tasks: peer.yml
+  when: type == "peer"

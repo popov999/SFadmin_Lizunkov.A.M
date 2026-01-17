@@ -1,0 +1,17 @@
+---
+
+- hosts:
+    - node1
+    - node3
+  become: yes
+
+  roles:
+
+    - role: wireguard
+      TYPE: "peer"
+      WG_SERVER_ANSIBLE: "node1"
+      WG_SERVER_IP: "87.27.01.80"
+      WG_SERVER_PORT: "51820"
+      WG_PEER_ANSIBLE: "node3"
+      WG_PEER_IP: "10.11.12.3"
+      WG_PEER_NET: "10.11.12.0"

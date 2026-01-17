@@ -1,0 +1,6 @@
+---
+# Install Packages (false, true)
+INSTALL_PACKAGES: true
+
+# Install (false, true). Default "false"
+fail2ban: "false"
